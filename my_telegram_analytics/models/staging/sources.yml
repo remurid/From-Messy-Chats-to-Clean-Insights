@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw schema from the PostgreSQL database containing scraped data."
+    schema: raw
+    tables:
+      - name: messages
+        description: "Raw Telegram messages as JSON blobs."
