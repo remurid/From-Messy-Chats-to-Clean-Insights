@@ -1,0 +1,11 @@
+# Add your project dependencies here
+pandas
+python-dotenv
+telethon
+psycopg2-binary
+dbt-postgres
+# ultralytics
+# fastapi
+# uvicorn
+# dagster
+# dagster-webserver
