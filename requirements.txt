@@ -4,8 +4,8 @@ python-dotenv
 telethon
 psycopg2-binary
 dbt-postgres
-# ultralytics
-# fastapi
-# uvicorn
-# dagster
-# dagster-webserver
+ultralytics
+opencv-python-headless
+fastapi
+uvicorn[standard]
+sqlalchemy
