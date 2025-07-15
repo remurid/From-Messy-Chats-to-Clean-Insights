@@ -3,11 +3,10 @@
 # Description: Contains the functions that interact with the database to
 # read data. These functions execute raw SQL queries against the dbt models.
 
-from sqlalchemy.orm import Session
-from sqlalchemy import text
+from sqlalchemy import text, Connection # FIX: Import Connection for type hinting
 from .database import DBT_SCHEMA
 
-def search_messages(db: Session, query: str, limit: int = 100):
+def search_messages(db: Connection, query: str, limit: int = 100): # FIX: Use Connection type hint
     """Searches for messages containing a specific keyword."""
     sql_query = text(f"""
         SELECT 
@@ -23,7 +22,7 @@ def search_messages(db: Session, query: str, limit: int = 100):
     result = db.execute(sql_query, {'search_term': f'%{query}%', 'limit': limit})
     return result.fetchall()
 
-def get_top_products(db: Session, limit: int = 10):
+def get_top_products(db: Connection, limit: int = 10): # FIX: Use Connection type hint
     """
     Finds the most frequently mentioned products.
     NOTE: This is a simplified example. A real-world implementation would use
@@ -48,7 +47,7 @@ def get_top_products(db: Session, limit: int = 10):
     result = db.execute(sql_query, {'limit': limit})
     return result.fetchall()
 
-def get_channel_activity(db: Session, channel_id: int):
+def get_channel_activity(db: Connection, channel_id: int): # FIX: Use Connection type hint
     """Gets the daily posting activity for a specific channel."""
     sql_query = text(f"""
         SELECT 
@@ -62,7 +61,7 @@ def get_channel_activity(db: Session, channel_id: int):
     result = db.execute(sql_query, {'channel_id': channel_id})
     return result.fetchall()
 
-def get_top_detected_objects(db: Session, limit: int = 10):
+def get_top_detected_objects(db: Connection, limit: int = 10): # FIX: Use Connection type hint
     """Gets the most frequently detected objects from images."""
     sql_query = text(f"""
         SELECT
@@ -76,7 +75,7 @@ def get_top_detected_objects(db: Session, limit: int = 10):
     result = db.execute(sql_query, {'limit': limit})
     return result.fetchall()
 
-def get_channel_id_by_name(db: Session, channel_name: str):
+def get_channel_id_by_name(db: Connection, channel_name: str): # FIX: Use Connection type hint
     """Helper to get a channel_id from its name."""
     sql_query = text(f"""
         SELECT channel_id FROM {DBT_SCHEMA}.dim_channels

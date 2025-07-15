@@ -9,3 +9,6 @@ opencv-python-headless
 fastapi
 uvicorn[standard]
 sqlalchemy
+dagster
+dagster-webserver
+dagster-dbt

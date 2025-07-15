@@ -1,21 +1,23 @@
 import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, MetaData, text
+from urllib.parse import quote_plus
 
 # Load environment variables from the .env file in the project root
 # Note the path to find the .env file one level up
 load_dotenv(dotenv_path='../.env')
 
-DB_NAME = os.getenv('DB_NAME', 'mydatabase')
-DB_USER = os.getenv('DB_USER', 'user')
-DB_PASSWORD = os.getenv('DB_PASSWORD', 'password')
+DB_NAME = os.getenv('DB_NAME', 'tenx_db')
+DB_USER = os.getenv('DB_USER', 'postgres')
+DB_PASSWORD = os.getenv('DB_PASSWORD', 'P@ssw0rd')
 DB_HOST = os.getenv('DB_HOST', 'localhost')
 DB_PORT = os.getenv('DB_PORT', '5432')
 
 # The schema where your final dbt models are stored
 DBT_SCHEMA = 'tg_data_warehouse' 
 
-DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+encoded_password = quote_plus(DB_PASSWORD)
+DATABASE_URL = f"postgresql://{DB_USER}:{encoded_password}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 # Create the SQLAlchemy engine
 engine = create_engine(DATABASE_URL)

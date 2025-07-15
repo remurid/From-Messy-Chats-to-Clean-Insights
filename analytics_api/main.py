@@ -5,7 +5,7 @@
 # the data structured according to the Pydantic schemas.
 
 from fastapi import FastAPI, Depends, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy import Connection # FIX: Import Connection for type hinting
 from typing import List
 
 from . import crud, schemas
@@ -17,14 +17,8 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Dependency for getting a DB session
-def get_db():
-    db = next(get_db_connection())
-    try:
-        yield db
-    finally:
-        db.close()
-
+# FIX: The redundant get_db function has been removed.
+# We will use get_db_connection directly in the endpoints.
 
 @app.get("/")
 def read_root():
@@ -32,7 +26,7 @@ def read_root():
 
 
 @app.get("/api/search/messages", response_model=List[schemas.MessageSearchResult])
-def search_for_messages(query: str, db: Session = Depends(get_db)):
+def search_for_messages(query: str, db: Connection = Depends(get_db_connection)): # FIX: Use get_db_connection
     """
     Searches for messages containing a specific keyword (e.g., 'paracetamol').
     """
@@ -41,7 +35,7 @@ def search_for_messages(query: str, db: Session = Depends(get_db)):
 
 
 @app.get("/api/reports/top-products", response_model=List[schemas.ProductReportItem])
-def get_top_products_report(limit: int = 10, db: Session = Depends(get_db)):
+def get_top_products_report(limit: int = 10, db: Connection = Depends(get_db_connection)): # FIX: Use get_db_connection
     """
     Returns the most frequently mentioned products or drugs across all channels.
     """
@@ -50,7 +44,7 @@ def get_top_products_report(limit: int = 10, db: Session = Depends(get_db)):
 
 
 @app.get("/api/channels/{channel_name}/activity", response_model=List[schemas.ChannelActivityItem])
-def get_channel_activity_report(channel_name: str, db: Session = Depends(get_db)):
+def get_channel_activity_report(channel_name: str, db: Connection = Depends(get_db_connection)): # FIX: Use get_db_connection
     """
     Returns the daily posting activity for a specific channel.
     (e.g., 'Channel 1399123456')
@@ -64,7 +58,7 @@ def get_channel_activity_report(channel_name: str, db: Session = Depends(get_db)
 
 
 @app.get("/api/reports/top-detected-objects", response_model=List[schemas.DetectedObjectReportItem])
-def get_top_objects_report(limit: int = 10, db: Session = Depends(get_db)):
+def get_top_objects_report(limit: int = 10, db: Connection = Depends(get_db_connection)): # FIX: Use get_db_connection
     """
     Returns the most frequently detected objects in images across all channels.
     """
