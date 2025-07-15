@@ -23,3 +23,20 @@ models:
         tests:
           - unique
           - not_null
+
+  - name: fct_image_detections
+    description: "Fact table containing one row per detected object in an image."
+    columns:
+      - name: detection_id
+        description: "The primary key for this table."
+        tests:
+          - unique
+          - not_null
+      
+      - name: message_id
+        description: "Foreign key to the fct_messages table."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('fct_messages')
+              field: message_id

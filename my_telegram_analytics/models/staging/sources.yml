@@ -7,3 +7,10 @@ sources:
     tables:
       - name: messages
         description: "Raw Telegram messages as JSON blobs."
+
+  - name: raw_enrichment # New source for enrichment data
+    description: "Schema containing raw results from enrichment processes like YOLO."
+    schema: raw_enrichment
+    tables:
+      - name: image_detections
+        description: "Raw object detection results from YOLOv8."
